@@ -20,23 +20,16 @@ function drawDot(){
     console.log(mouseState.x + " ; " + mouseState.y);
 }
 
-<<<<<<< HEAD
 function main(){
     if(mouseState.isPressed)
         drawDot();
 }
 
-=======
->>>>>>> added  free drawing tool
 document.onmousemove = function(event){
     mouseState.x = event.pageX;
     mouseState.y = event.pageY; //asdasd
 
-<<<<<<< HEAD
     if(mouseState.isPressed) // work please
-=======
-    if(mouseState.isPressed)
->>>>>>> added  free drawing tool
         drawDot();
 }
 
