@@ -29,7 +29,7 @@ document.onmousemove = function(event){
     mouseState.x = event.pageX;
     mouseState.y = event.pageY;
 
-    if(mouseState.isPressed)
+    if(mouseState.isPressed) // work please
         drawDot();
 }
 
