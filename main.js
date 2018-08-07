@@ -30,7 +30,7 @@ function main(){
 >>>>>>> added  free drawing tool
 document.onmousemove = function(event){
     mouseState.x = event.pageX;
-    mouseState.y = event.pageY; //asd
+    mouseState.y = event.pageY; //asdasd
 
 <<<<<<< HEAD
     if(mouseState.isPressed) // work please
