@@ -16,6 +16,11 @@ document.onmouseup = function(){
     mouseState.isPressed = false;
 
     drawingOptionLogic();
+    
+
+    if(isUsingLine && !mouseState.isPressed)
+        linesDrawn.push({fromX:mouseState.previousX, fromY:mouseState.previousY, 
+            toX:mouseState.x, toY:mouseState.y});
 }
 
 document.getElementById('free-drawing').onclick = function(){

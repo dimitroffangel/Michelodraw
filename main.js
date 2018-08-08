@@ -17,30 +17,44 @@ function drawLine(){
     context.closePath();
 }
 
+function tryDrawingLine(fromX, fromY, toX, toY){
+    context.beginPath();
+    context.moveTo(fromX, fromY);
+    context.lineTo(toX, toY);
+    context.lineWidth = 1;
+    context.strokeStyle = colorButton.value;
+    context.stroke();
+    context.closePath();
+}
+
 function removeLastLine(){
     if(probeLines.length < 1)
         return;
 
-    var lastProbeLines = probeLines.pop();
+    var lastProbeLine = probeLines.pop();
     
     context.beginPath();
-    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
-    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.moveTo(lastProbeLine.fromX, lastProbeLine.fromY);
+    context.lineTo(lastProbeLine.toX, lastProbeLine.toY);
     context.strokeStyle = '#FFFFFF';
     context.stroke();
 
-    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
-    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.moveTo(lastProbeLine.fromX, lastProbeLine.fromY);
+    context.lineTo(lastProbeLine.toX, lastProbeLine.toY);
     context.stroke();
 
-    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
-    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.moveTo(lastProbeLine.fromX, lastProbeLine.fromY);
+    context.lineTo(lastProbeLine.toX, lastProbeLine.toY);
     context.stroke();
 
-    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
-    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.moveTo(lastProbeLine.fromX, lastProbeLine.fromY);
+    context.lineTo(lastProbeLine.toX, lastProbeLine.toY);
     context.stroke();
     context.closePath();
+
+    linesDrawn.forEach(function(line){
+            tryDrawingLine(line.fromX, line.fromY, line.toX, line.toY);
+    });
 }
 
 function drawingOptionLogic(){

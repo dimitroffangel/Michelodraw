@@ -4,6 +4,7 @@ var context = canvas.getContext('2d');
 var isUsingFreeDraw = true;
 var isUsingLine = false;
 var probeLines = [];
+var linesDrawn = [];
 
 var mouseState = {
     x:0,
