@@ -1,26 +1,10 @@
-console.log('yeeee');
-var colorButton = document.getElementById('colorButton');
-var canvas = document.getElementById('myCanvas');
-var context = canvas.getContext('2d');
-var isUsingFreeDraw = true;
-var isUsingLine = false;
-var probeLines = [];
-
-var mouseState = {
-    x:0,
-    y:0,
-    previousX:0,
-    previousY:0,
-    isPressed:false
-};
-var radius = 5;
 
 function drawDot(){
     context.fillStyle = colorButton.value;
     context.beginPath();
     context.arc(mouseState.x, mouseState.y, radius, 0, 360);
-    context.closePath();
     context.fill();
+    context.closePath();
 }
 
 function drawLine(){
@@ -39,19 +23,39 @@ function removeLastLine(){
 
     var lastProbeLines = probeLines.pop();
     
-    
-    var additionX = lastProbeLines.fromX - lastProbeLines.toX < 0 ? 1 : 0;
-
-    var additionY = lastProbeLines.fromY - lastProbeLines.toY < 0 ? 1: 0;
-
-
     context.beginPath();
     context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
-    context.lineTo(lastProbeLines.toX+additionX, lastProbeLines.toY+additionY);
-    context.lineWidth = 10;
-    context.strokeStyle = '#ffffff';
+    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.strokeStyle = '#FFFFFF';
+    context.stroke();
+
+    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
+    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.stroke();
+
+    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
+    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
+    context.stroke();
+
+    context.moveTo(lastProbeLines.fromX, lastProbeLines.fromY);
+    context.lineTo(lastProbeLines.toX, lastProbeLines.toY);
     context.stroke();
     context.closePath();
+}
+
+function drawingOptionLogic(){
+    if(isUsingLine && mouseState.isPressed){
+        removeLastLine();
+        drawLine();
+        
+        probeLines.push({fromX: mouseState.previousX, fromY:mouseState.previousY,
+                     toX: mouseState.x, toY: mouseState.y});
+    }
+
+    else if(isUsingLine && !mouseState.isPressed){
+        // nullify probeLines
+        probeLines.pop();
+    }
 }
 
 function main(){
@@ -62,40 +66,3 @@ function main(){
 }
 
 setInterval(main, 30);
-
-document.onmousemove = function(event){
-    mouseState.x = event.pageX;
-
-    mouseState.y = event.pageY; //asdasd
-    if(isUsingLine && mouseState.isPressed){
-        removeLastLine();
-        drawLine();
-        
-        probeLines.push({fromX: mouseState.previousX, fromY:mouseState.previousY,
-                     toX: mouseState.x, toY: mouseState.y});
-    }
-}
-
-document.onmousedown = function(){ 
-    mouseState.previousX = mouseState.x;
-    mouseState.previousY = mouseState.y;
-    mouseState.isPressed = true;
-}
-
-document.onmouseup = function(){
-    mouseState.isPressed = false;
-
-    if(isUsingLine)
-        probeLines.pop();
-}
-
-document.getElementById('free-drawing').onclick = function(){
-    isUsingFreeDraw = !isUsingFreeDraw;
-}
-
-document.getElementById('line').onclick = function(){
-    if(!isUsingLine && isUsingFreeDraw)
-        isUsingFreeDraw = false;
-
-    isUsingLine = !isUsingLine;
-}
