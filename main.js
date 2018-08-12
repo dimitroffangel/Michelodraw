@@ -1,5 +1,3 @@
-var canvasDrawings = document.getElementById('canvas-drawings');
-
 function drawDot(){
     context.fillStyle = colorButton.value;
     context.beginPath();
