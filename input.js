@@ -10,20 +10,26 @@ document.onmousedown = function(){
     mouseState.previousX = mouseState.x;
     mouseState.previousY = mouseState.y;
     mouseState.isPressed = true;
+
+    if(isUsingLine)
+        saveCanvas();
 }
 
 document.onmouseup = function(){
     mouseState.isPressed = false;
 
-    drawingOptionLogic();
-    
-
     if(isUsingLine && !mouseState.isPressed)
-        linesDrawn.push({fromX:mouseState.previousX, fromY:mouseState.previousY, 
-            toX:mouseState.x, toY:mouseState.y});
+    {
+        context.clearRect(0,0, canvas.width, canvas.height);
+        setCanvasBackground();
+        drawLine();
+    }
 }
 
 document.getElementById('free-drawing').onclick = function(){
+    if(isUsingLine)
+        isUsingLine = false;
+
     isUsingFreeDraw = !isUsingFreeDraw;
 }
 

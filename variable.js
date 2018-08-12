@@ -5,6 +5,7 @@ var isUsingFreeDraw = true;
 var isUsingLine = false;
 var probeLines = [];
 var linesDrawn = [];
+var drawnPixels = [];
 
 var mouseState = {
     x:0,

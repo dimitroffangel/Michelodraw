@@ -1,3 +1,4 @@
+var canvasDrawings = document.getElementById('canvas-drawings');
 
 function drawDot(){
     context.fillStyle = colorButton.value;
@@ -17,14 +18,12 @@ function drawLine(){
     context.closePath();
 }
 
-function tryDrawingLine(fromX, fromY, toX, toY){
-    context.beginPath();
-    context.moveTo(fromX, fromY);
-    context.lineTo(toX, toY);
-    context.lineWidth = 1;
-    context.strokeStyle = colorButton.value;
-    context.stroke();
-    context.closePath();
+function saveCanvas(){
+    canvasDrawings.src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  
+}
+
+function setCanvasBackground(){
+    context.drawImage(canvasDrawings, 0, 0);
 }
 
 function removeLastLine(){
@@ -34,6 +33,7 @@ function removeLastLine(){
     var lastProbeLine = probeLines.pop();
     
     context.beginPath();
+
     context.moveTo(lastProbeLine.fromX, lastProbeLine.fromY);
     context.lineTo(lastProbeLine.toX, lastProbeLine.toY);
     context.strokeStyle = '#FFFFFF';
@@ -50,11 +50,8 @@ function removeLastLine(){
     context.moveTo(lastProbeLine.fromX, lastProbeLine.fromY);
     context.lineTo(lastProbeLine.toX, lastProbeLine.toY);
     context.stroke();
+    
     context.closePath();
-
-    linesDrawn.forEach(function(line){
-            tryDrawingLine(line.fromX, line.fromY, line.toX, line.toY);
-    });
 }
 
 function drawingOptionLogic(){
@@ -74,9 +71,10 @@ function drawingOptionLogic(){
 
 function main(){
     if(mouseState.isPressed){
-        if(isUsingFreeDraw)
+        if(isUsingFreeDraw){
             drawDot();
+        }
     }
 }
 
-setInterval(main, 30);
+setInterval(main, 1);
