@@ -24,7 +24,7 @@ document.onmouseup = function(){
         setCanvasBackground();
         drawLine(mouseState.previousX, mouseState.previousY, mouseState.x, mouseState.y, colorButton.value);
         drawnObjects.push({type:'line', fromX:mouseState.previousX, fromY:mouseState.previousY, 
-                                        toX:mouseState.x, toY:mouseState.y});
+                                        toX:mouseState.x, toY:mouseState.y, color:colorButton.value});
     }
 }
 
@@ -56,33 +56,74 @@ document.body.onkeydown = function(event){
         if(!drawnObjects.length)
             return;
 
-        
+        // add the object to undid objects
         var lastDrawnObject = drawnObjects.pop();
+
         console.log('undo');
 
         if(!lastDrawnObject.type)
             return;
 
         // delete the object
+        // the drawing is so much in order to clear the object
         if(lastDrawnObject.type == 'dot'){
+            undidDrawnObjects.push({type:'dot', fromX:lastDrawnObject.fromX, fromY: lastDrawnObject.fromY,
+                                    color:lastDrawnObject.color});
+
             drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');
             drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');
             drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
+
         }
 
         else if(lastDrawnObject.type == 'line'){
+            undidDrawnObjects.push({type:'line', fromX:lastDrawnObject.fromX, fromY: lastDrawnObject.fromY, 
+                                    toX: lastDrawnObject.toX, toY: lastDrawnObject.toY, 
+                                    color:lastDrawnObject.color});
             drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');    
+                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
+            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY,
+                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
             drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
                     lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
             drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');  
+                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
             drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
                     lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
             drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');         
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');     
+                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
+        }
+    }
+
+    else if(isCtrlPressed && event.keyCode == 89){
+        var lastUndidObject = undidDrawnObjects.pop();
+
+        console.log(lastUndidObject);
+
+        if(!lastUndidObject)
+            return;
+        /* draw the object and add it to drawnObjects
+        */
+        if(lastUndidObject.type == 'dot'){
+            drawDot(lastUndidObject.fromX, lastUndidObject.fromY, lastUndidObject.color);
+            drawnObjects.push({type:'dot', fromX:lastUndidObject.fromX, fromY:lastUndidObject.fromY, 
+                                color:lastUndidObject.color});
+        }
+
+        else if(lastUndidObject.type == 'line'){
+            drawLine(lastUndidObject.fromX, lastUndidObject.fromY, lastUndidObject.toX, lastUndidObject.toY, 
+                    lastUndidObject.color);
+            drawnObjects.push({type:'line', fromX:lastUndidObject.fromX, fromY:lastUndidObject.fromY, 
+                                toX:lastUndidObject.toX, toY:lastUndidObject.toY, color:lastUndidObject.color});
+            
+            console.log(lastUndidObject.type);
         }
     }
 }

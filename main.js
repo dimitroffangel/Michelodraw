@@ -56,7 +56,7 @@ function drawingOptionLogic(){
     if(isUsingFreeDraw && mouseState.isPressed){
         console.log(drawnObjects.length);
         drawDot(mouseState.x, mouseState.y, colorButton.value);
-        drawnObjects.push({type:'dot', fromX:mouseState.x, fromY:mouseState.y});
+        drawnObjects.push({type:'dot', fromX:mouseState.x, fromY:mouseState.y, color:colorButton.value});
         // save the object to last drawn objects
     }
 

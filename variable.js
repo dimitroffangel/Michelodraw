@@ -6,6 +6,7 @@ var isUsingLine = false;
 var probeLines = [];
 var canvasDrawings = document.getElementById('canvas-drawings');
 var drawnObjects = [];
+var undidDrawnObjects = [];
 var isShiftPressed;
 var isCtrlPressed;
 
