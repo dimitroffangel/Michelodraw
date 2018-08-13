@@ -1,17 +1,17 @@
-function drawDot(){
-    context.fillStyle = colorButton.value;
+function drawDot(x, y, color){
+    context.fillStyle = color;
     context.beginPath();
-    context.arc(mouseState.x, mouseState.y, radius, 0, 360);
+    context.arc(x, y, radius, 0, 360);
     context.fill();
     context.closePath();
 }
 
-function drawLine(){
+function drawLine(fromX, fromY, toX, toY, color){
     context.beginPath();
-    context.moveTo(mouseState.previousX, mouseState.previousY);
-    context.lineTo(mouseState.x, mouseState.y);
+    context.moveTo(fromX, fromY);
+    context.lineTo(toX, toY);
     context.lineWidth = 1;
-    context.strokeStyle = colorButton.value;
+    context.strokeStyle = color;
     context.stroke();
     context.closePath();
 }
@@ -53,9 +53,16 @@ function removeLastLine(){
 }
 
 function drawingOptionLogic(){
+    if(isUsingFreeDraw && mouseState.isPressed){
+        console.log(drawnObjects.length);
+        drawDot(mouseState.x, mouseState.y, colorButton.value);
+        drawnObjects.push({type:'dot', fromX:mouseState.x, fromY:mouseState.y});
+        // save the object to last drawn objects
+    }
+
     if(isUsingLine && mouseState.isPressed){
         removeLastLine();
-        drawLine();
+        drawLine(mouseState.previousX, mouseState.previousY, mouseState.x, mouseState.y, colorButton.value);
         
         probeLines.push({fromX: mouseState.previousX, fromY:mouseState.previousY,
                      toX: mouseState.x, toY: mouseState.y});
@@ -69,9 +76,7 @@ function drawingOptionLogic(){
 
 function main(){
     if(mouseState.isPressed){
-        if(isUsingFreeDraw){
-            drawDot();
-        }
+
     }
 }
 

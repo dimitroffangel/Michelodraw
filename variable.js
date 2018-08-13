@@ -4,9 +4,13 @@ var context = canvas.getContext('2d');
 var isUsingFreeDraw = true;
 var isUsingLine = false;
 var probeLines = [];
-var linesDrawn = [];
 var canvasDrawings = document.getElementById('canvas-drawings');
+var drawnObjects = [];
+var isShiftPressed;
+var isCtrlPressed;
 
+const shiftKeyCode= 16;
+const ctrlKeyCode = 17;
 
 var mouseState = {
     x:0,
