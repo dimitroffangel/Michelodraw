@@ -74,10 +74,37 @@ function drawingOptionLogic(){
     }
 }
 
-function main(){
-    if(mouseState.isPressed){
+function drawAllDrawnObjects(){
+    drawnObjects.forEach(function(object){
+        if(!object)
+            return;
+        
+            // draw the object and add it to drawnObjects
+        if(object.type == 'dot'){
+            drawDot(object.fromX, object.fromY, object.color);
+        }
 
+        else if(object.type == 'line'){
+            drawLine(object.fromX, object.fromY, object.toX, object.toY, 
+                    object.color);
+        }
+    });
+}
+
+function main(){
+    for(var x = 0; x < canvas.width; x++){
+        for(var y = 0; y < canvas.height; y++){
+            drawDot(x,y, colorButton.value);
+            drawnObjects.push({type:'dot', fromX:x, 
+                                fromY:y, color:colorButton.value});            
+        }
     }
 }
 
-setInterval(main, 1);
+// function undo(){
+//     drawnObjects.forEach(function(object){
+
+//     });
+// }
+
+// main();

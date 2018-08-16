@@ -109,8 +109,8 @@ document.body.onkeydown = function(event){
 
         if(!lastUndidObject)
             return;
-        /* draw the object and add it to drawnObjects
-        */
+        // draw the object and add it to drawnObjects
+        
         if(lastUndidObject.type == 'dot'){
             drawDot(lastUndidObject.fromX, lastUndidObject.fromY, lastUndidObject.color);
             drawnObjects.push({type:'dot', fromX:lastUndidObject.fromX, fromY:lastUndidObject.fromY, 
