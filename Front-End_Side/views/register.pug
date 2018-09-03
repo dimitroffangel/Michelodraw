@@ -9,16 +9,16 @@ html(lang='en')
     form(action='/register', method='post')
       div
         label Username:
-        input(type='text', name='username')
+        input(type='text', name='username', required='')
         if failedUsernameMessage
             h2.red #{failedUsernameMessage}
         br
       div
         label Password:
-        input(type='password', name='password')
+        input(type='password', name='password', required='')
       div
         label E-mail:
-        input(type='email', name='email')
+        input(type='email', name='email', required='')
         if failedEmailMessage
             h2.red #{failedEmailMessage}
       div

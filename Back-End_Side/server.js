@@ -90,8 +90,8 @@ function main(){
           console.log('strategizing');
           findByUsername(username, function(err, user) {
             if (err) { return cb(err); }
-            if (!user) { return cb(null, false); }
-            if (user.password != password) { return cb(null, false, {message:'invalid data'}); }
+            if (!user) { return cb(null, false, {Message:'invalid data'}); }
+            if (user.password != password) { return cb(null, false, {Message:'invalid data'}); }
             return cb(null, user);
           });
     }));
@@ -116,6 +116,7 @@ function main(){
     
     app.set('views', '../Front-End_Side/views');
     app.set('view engine', 'pug');
+    app.use(express.static('../Front-End_Side'));
 
     //app.use(express.static('../Front-End_Side'));
     app.use(require('morgan')('combined'));
@@ -155,12 +156,9 @@ function main(){
 
     app.get('/register', (request, response) => {
         response.render('register');
-        //openFile(response, frontEndFolder + '/Pages/registerPage.html', 'text\html');
     });
 
     app.post('/register', (request, response) => {
-        console.log(request.body);
-
         var userData = request.body;
 
         console.log(items);
@@ -175,20 +173,20 @@ function main(){
             return;            
         }
 
-        console.log('coming after something');
         items.push({id:items.length+1, username:userData.username, 
-                    password:userData.password, emails: [userData.email]})
+                    password:userData.password, emails: [userData.email]});
+                    
+        console.log(items[items.length-1]);
         response.redirect('login');
     });
 
     app.get('/login', (request, response) => {
-        openFile(response, frontEndFolder + '/Pages/LoginPage.html', 'text/html');
+        response.render('logIn');
     });
     
-    app.post('/login', passport.authenticate('local', { failureRedirect: '/login',
-                                                        successReturnToOrRedirect: '/drawingStudio',
-                                                        failureFlash: false,
-                                                        failureMessage: 'failed'}));
+    app.post('/login', passport.authenticate('local', { failureFlash: 'Invalid data',
+                                                        failureRedirect: 'logIn',
+                                                        successReturnToOrRedirect: '/drawingStudio'}));
 
     app.get('/api/items', (request, response) => {
         response.send(items);
@@ -202,11 +200,8 @@ function main(){
         console.log(id);
 
         if(!item){
-            return response
-                            .status(404)
-                            .send({
-                                error: 'Not found'
-                            });
+            return response.status(404)
+                            .send({error: 'Not found'});
         }
 
         return response.send(item);
