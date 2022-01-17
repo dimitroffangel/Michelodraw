@@ -48,8 +48,8 @@ function drawBezierCurveCubic(color){
          context.lineTo(p.x, p.y);
     }
 
+    context.strokeStyle = color;
     context.stroke();
-    context.closePath();
 }
 
 function saveCanvas(){

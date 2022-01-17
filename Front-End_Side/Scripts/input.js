@@ -18,7 +18,7 @@ document.onmousedown = function(){
     }
 
     else if(isUsingBezierCurve3D && mouseState.isPressed){
-        drawnObjects.push({type:'bezier-curve-3d', points:[...pointsFromBezierCurve3DListed], color:colorButton.value});
+        drawnObjects.push({type:'bezier-curve-3d', points:[...pointsFromBezierCurve3DListed], color:colorButton.value, accuracy:0.01});
         drawBezierCurveCubic(colorButton.value);
         pointsFromBezierCurve3DListed = [];
     }
@@ -127,26 +127,25 @@ document.body.onkeydown = function(event){
         else if(lastDrawnObject.type == 'bezier-curve-3d'){
             var accuracy = lastDrawnObject.accuracy;
             var pointsFromTheBezierCurve = lastDrawnObject.points;
-            undidDrawnObjects.push({type:'bezier-curve-3d', points:[...pointsFromTheBezierCurve], color:lastDrawnObject.color});
-            
+            undidDrawnObjects.push({type:'bezier-curve-3d', accuracy:accuracy, points:[...pointsFromTheBezierCurve], color:lastDrawnObject.color});
+            console.log(lastDrawnObject);
             console.log(pointsFromTheBezierCurve);
             context.strokeStyle = '#FFFFFF';
             context.moveTo(pointsFromTheBezierCurve[0].fromX, pointsFromTheBezierCurve[0].fromY);
 
             for(var j = 0; j < 10; j++){
-
                 for (var i=0; i<1; i+=accuracy){
                      var p = bezier(i, pointsFromTheBezierCurve[0], pointsFromTheBezierCurve[1], 
                         pointsFromTheBezierCurve[2], pointsFromTheBezierCurve[3]);
                      context.lineTo(p.x, p.y);
                 }
+
                 context.stroke();
             }
 
             context.closePath();       
             context.strokeStyle = colorButton.value;     
 
-        
             for(var i = 0; i < pointsFromTheBezierCurve.length; ++i){
                 drawDot(pointsFromTheBezierCurve[i].fromX, pointsFromTheBezierCurve[i].fromY, '#FFFFFF');
             }
@@ -189,7 +188,7 @@ document.body.onkeydown = function(event){
 
             drawBezierCurveCubic(lastUndidObject.color);
 
-            drawnObjects.push({type:'bezier-curve-3d', points:[...pointsFromBezierCurve3DListed], color:lastUndidObject.color});
+            drawnObjects.push({type:'bezier-curve-3d', accuracy:lastUndidObject.accuracy, points:[...pointsFromBezierCurve3DListed], color:lastUndidObject.color});
             pointsFromBezierCurve3DListed = [];
         }
     }
