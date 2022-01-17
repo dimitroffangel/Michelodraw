@@ -3,12 +3,15 @@ var canvas = document.getElementById('main-board');
 var context = canvas.getContext('2d');
 var isUsingFreeDraw = true;
 var isUsingLine = false;
+var isUsingBezierCurve3D = false;
 var probeLines = [];
 var canvasDrawings = document.getElementById('canvas-drawings');
 var drawnObjects = [];
 var undidDrawnObjects = [];
 var isShiftPressed;
 var isCtrlPressed;
+var numberOfPointsClickedForBezierCurve3D = 4;
+var pointsFromBezierCurve3DListed = [];
 
 const shiftKeyCode= 16;
 const ctrlKeyCode = 17;

@@ -16,6 +16,42 @@ function drawLine(fromX, fromY, toX, toY, color){
     context.closePath();
 }
 
+function bezier(t, p0, p1, p2, p3){
+    var cX = 3 * (p1.fromX - p0.fromX),
+        bX = 3 * (p2.fromX - p1.fromX) - cX,
+        aX = p3.fromX - p0.fromX - cX - bX;
+          
+    var cY = 3 * (p1.fromY - p0.fromY),
+        bY = 3 * (p2.fromY - p1.fromY) - cY,
+        aY = p3.fromY - p0.fromY - cY - bY;
+          
+    var x = (aX * Math.pow(t, 3)) + (bX * Math.pow(t, 2)) + (cX * t) + p0.fromX;
+    var y = (aY * Math.pow(t, 3)) + (bY * Math.pow(t, 2)) + (cY * t) + p0.fromY;
+          
+    return {x: x, y: y};
+  };
+
+function drawBezierControlPoint(x, y, color){
+    drawDot(x, y, color);
+    pointsFromBezierCurve3DListed.push({fromX:x, fromY:y});
+}
+
+function drawBezierCurveCubic(color){
+    var accuracy = 0.01;
+    context.beginPath();
+    context.moveTo(pointsFromBezierCurve3DListed[0].fromX, pointsFromBezierCurve3DListed[0].fromY);
+    
+    console.log({pointsFromBezierCurve3DListed, color});
+    for (var i=0; i<1; i+=accuracy){
+         var p = bezier(i, pointsFromBezierCurve3DListed[0], pointsFromBezierCurve3DListed[1], 
+                           pointsFromBezierCurve3DListed[2], pointsFromBezierCurve3DListed[3]);
+         context.lineTo(p.x, p.y);
+    }
+
+    context.stroke();
+    context.closePath();
+}
+
 function saveCanvas(){
     canvasDrawings.src = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  
 }
@@ -78,7 +114,7 @@ function drawAllDrawnObjects(){
         if(!object)
             return;
         
-            // draw the object and add it to drawnObjects
+        // draw the object and add it to drawnObjects
         if(object.type == 'dot'){
             drawDot(object.fromX, object.fromY, object.color);
         }

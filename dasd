@@ -1,0 +1,76 @@
+[1mdiff --git a/Front-End_Side/Pages/drawingGround.html b/Front-End_Side/Pages/drawingGround.html[m
+[1mindex 1b2b375..8dad813 100644[m
+[1m--- a/Front-End_Side/Pages/drawingGround.html[m
+[1m+++ b/Front-End_Side/Pages/drawingGround.html[m
+[36m@@ -23,6 +23,7 @@[m
+ <input type="color" id="color-button">[m
+ <button id="free-drawing">Free drawing</button>[m
+ <button id="line">Line</button>[m
+[32m+[m[32m<button id="fill">Fill</button>[m
+ <img id='canvas-drawings' src="../Pictures/Maggie.png" alt=""/> [m
+ [m
+     <script src="../Scripts/variable.js"></script>   [m
+[1mdiff --git a/Front-End_Side/Scripts/input.js b/Front-End_Side/Scripts/input.js[m
+[1mindex 1952b10..f2711f6 100644[m
+[1m--- a/Front-End_Side/Scripts/input.js[m
+[1m+++ b/Front-End_Side/Scripts/input.js[m
+[36m@@ -45,6 +45,18 @@[m [mdocument.getElementById('line').onclick = function(){[m
+     isUsingLine = !isUsingLine;[m
+ }[m
+ [m
+[32m+[m[32mdocument.getElementById('fill').onclick = function(){[m
+[32m+[m[32m    if(!isUsingFill){[m
+[32m+[m[32m        // disable the ability to use more than one instrument at once[m
+[32m+[m[32m        if(isUsingFreeDraw)[m
+[32m+[m[32m            isUsingFreeDraw = false;[m
+[32m+[m[32m        if(isUsingLine)[m
+[32m+[m[32m            isUsingLine = false;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    isUsingFill = !isUsingFill;[m
+[32m+[m[32m}[m
+[32m+[m
+ document.body.onkeydown = function(event){[m
+     isShiftPressed = event.keyCode == shiftKeyCode;[m
+ [m
+[1mdiff --git a/Front-End_Side/Scripts/main.js b/Front-End_Side/Scripts/main.js[m
+[1mindex 8276f44..5ba99dd 100644[m
+[1m--- a/Front-End_Side/Scripts/main.js[m
+[1m+++ b/Front-End_Side/Scripts/main.js[m
+[36m@@ -71,6 +71,11 @@[m [mfunction drawingOptionLogic(){[m
+         // nullify probeLines[m
+         probeLines.pop();[m
+     }[m
+[32m+[m
+[32m+[m[32m    if(isUsingFill && mouseState.isPressed){[m
+[32m+[m[32m        console.log(mouseState.x, mouseState.y, colorButton.value);[m
+[32m+[m[32m        fillObject();[m
+[32m+[m[32m    }[m
+ }[m
+ [m
+ function drawAllDrawnObjects(){[m
+[36m@@ -90,6 +95,12 @@[m [mfunction drawAllDrawnObjects(){[m
+     });[m
+ }[m
+ [m
+[32m+[m[32mfunction fillObject(x, y, color){[m
+[32m+[m[32m    drawDot(x, y, color);[m
+[32m+[m[32m    drawnObjects.push({type:'dot', fromX:x, fromY:y, color:color});[m
+[32m+[m
+[32m+[m[32m}[m
+[32m+[m
+ function main(){[m
+     for(var x = 0; x < canvas.width; x++){[m
+         for(var y = 0; y < canvas.height; y++){[m
+[1mdiff --git a/Front-End_Side/Scripts/variable.js b/Front-End_Side/Scripts/variable.js[m
+[1mindex eb6a341..031d08a 100644[m
+[1m--- a/Front-End_Side/Scripts/variable.js[m
+[1m+++ b/Front-End_Side/Scripts/variable.js[m
+[36m@@ -3,6 +3,7 @@[m [mvar canvas = document.getElementById('main-board');[m
+ var context = canvas.getContext('2d');[m
+ var isUsingFreeDraw = true;[m
+ var isUsingLine = false;[m
+[32m+[m[32mvar isUsingFill = false;[m
+ var probeLines = [];[m
+ var canvasDrawings = document.getElementById('canvas-drawings');[m
+ var drawnObjects = [];[m
