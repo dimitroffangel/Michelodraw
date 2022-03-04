@@ -82,74 +82,7 @@ document.body.onkeydown = function(event){
         // add the object to undid objects
         var lastDrawnObject = drawnObjects.pop();
 
-        console.log('undo');
-
-        if(!lastDrawnObject.type)
-            return;
-
-        // delete the object
-        // the drawing is so much in order to clear the object
-        if(lastDrawnObject.type == 'dot'){
-            undidDrawnObjects.push({type:'dot', fromX:lastDrawnObject.fromX, fromY: lastDrawnObject.fromY,
-                                    color:lastDrawnObject.color});
-
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-            drawDot(lastDrawnObject.fromX, lastDrawnObject.fromY, '#FFFFFF');  
-
-        }
-
-        else if(lastDrawnObject.type == 'line'){
-            undidDrawnObjects.push({type:'line', fromX:lastDrawnObject.fromX, fromY: lastDrawnObject.fromY, 
-                                    toX: lastDrawnObject.toX, toY: lastDrawnObject.toY, 
-                                    color:lastDrawnObject.color});
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY,
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
-            drawLine(lastDrawnObject.fromX, lastDrawnObject.fromY, 
-                    lastDrawnObject.toX, lastDrawnObject.toY, '#FFFFFF');
-        }
-
-        else if(lastDrawnObject.type == 'bezier-curve-3d'){
-            var accuracy = lastDrawnObject.accuracy;
-            var pointsFromTheBezierCurve = lastDrawnObject.points;
-            undidDrawnObjects.push({type:'bezier-curve-3d', accuracy:accuracy, points:[...pointsFromTheBezierCurve], color:lastDrawnObject.color});
-            console.log(lastDrawnObject);
-            console.log(pointsFromTheBezierCurve);
-            context.strokeStyle = '#FFFFFF';
-            context.moveTo(pointsFromTheBezierCurve[0].fromX, pointsFromTheBezierCurve[0].fromY);
-
-            for(var j = 0; j < 10; j++){
-                for (var i=0; i<1; i+=accuracy){
-                     var p = bezier(i, pointsFromTheBezierCurve[0], pointsFromTheBezierCurve[1], 
-                        pointsFromTheBezierCurve[2], pointsFromTheBezierCurve[3]);
-                     context.lineTo(p.x, p.y);
-                }
-
-                context.stroke();
-            }
-
-            context.closePath();       
-            context.strokeStyle = colorButton.value;     
-
-            for(var i = 0; i < pointsFromTheBezierCurve.length; ++i){
-                drawDot(pointsFromTheBezierCurve[i].fromX, pointsFromTheBezierCurve[i].fromY, '#FFFFFF');
-            }
-        }
+        RemoveDrawnObject(lastDrawnObject);
     }
 
     else if(isCtrlPressed && event.keyCode == 89){
@@ -161,36 +94,7 @@ document.body.onkeydown = function(event){
             return;
         // draw the object and add it to drawnObjects
         
-        if(lastUndidObject.type == 'dot'){
-            drawDot(lastUndidObject.fromX, lastUndidObject.fromY, lastUndidObject.color);
-            drawnObjects.push({type:'dot', fromX:lastUndidObject.fromX, fromY:lastUndidObject.fromY, 
-                                color:lastUndidObject.color});
-        }
-
-        else if(lastUndidObject.type == 'line'){
-            drawLine(lastUndidObject.fromX, lastUndidObject.fromY, lastUndidObject.toX, lastUndidObject.toY, 
-                    lastUndidObject.color);
-            drawnObjects.push({type:'line', fromX:lastUndidObject.fromX, fromY:lastUndidObject.fromY, 
-                                toX:lastUndidObject.toX, toY:lastUndidObject.toY, color:lastUndidObject.color});
-            
-            console.log(lastUndidObject.type);
-        }
-
-        else if(lastUndidObject.type == 'bezier-curve-3d'){
-            console.log(lastUndidObject);
-            var controlPoints = lastUndidObject.points; 
-            const numberOfControlPoinst = controlPoints.length;
-
-            pointsFromBezierCurve3DListed = [];
-            for(var i = 0; i < numberOfControlPoinst; i++){
-                drawBezierControlPoint(controlPoints[i].fromX, controlPoints[i].fromY, lastUndidObject.color);
-            }
-
-            drawBezierCurveCubic(lastUndidObject.color);
-
-            drawnObjects.push({type:'bezier-curve-3d', accuracy:lastUndidObject.accuracy, points:[...pointsFromBezierCurve3DListed], color:lastUndidObject.color});
-            pointsFromBezierCurve3DListed = [];
-        }
+        ResurrectRemoveObject(lastUndidObject);
     }
 }
 
