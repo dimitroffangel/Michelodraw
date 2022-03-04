@@ -109,7 +109,7 @@ function drawingOptionLogic(){
     }
 }
 
-function RemoveDrawnObject(lastDrawnObject){
+function removeDrawnObject(lastDrawnObject){
         console.log('undo');
 
         if(!lastDrawnObject.type)
@@ -180,8 +180,8 @@ function RemoveDrawnObject(lastDrawnObject){
         }
 }
 
-function ResurrectRemoveObject(lastUndidObject){
-    
+function resurrectRemoveObject(lastUndidObject){
+
     if(lastUndidObject.type == 'dot'){
         drawDot(lastUndidObject.fromX, lastUndidObject.fromY, lastUndidObject.color);
         drawnObjects.push({type:'dot', fromX:lastUndidObject.fromX, fromY:lastUndidObject.fromY, 
@@ -212,6 +212,12 @@ function ResurrectRemoveObject(lastUndidObject){
         drawnObjects.push({type:'bezier-curve-3d', accuracy:lastUndidObject.accuracy, points:[...pointsFromBezierCurve3DListed], color:lastUndidObject.color});
         pointsFromBezierCurve3DListed = [];
     }
+}
+
+function removeEveryObject(){
+    drawnObjects.forEach(drawnObject => {
+        removeDrawnObject(drawnObject);
+    });
 }
 
 function drawAllDrawnObjects(){

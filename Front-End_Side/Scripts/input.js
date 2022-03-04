@@ -67,6 +67,9 @@ document.getElementById('bezier-curve-cubic').onclick = function(){
     isUsingBezierCurve3D= !isUsingBezierCurve3D;
 }
 
+document.getElementById('nuke-everything').onclick = function(){
+    removeEveryObject();
+}
 
 document.body.onkeydown = function(event){
     isShiftPressed = event.keyCode == shiftKeyCode;
@@ -82,7 +85,7 @@ document.body.onkeydown = function(event){
         // add the object to undid objects
         var lastDrawnObject = drawnObjects.pop();
 
-        RemoveDrawnObject(lastDrawnObject);
+        removeDrawnObject(lastDrawnObject);
     }
 
     else if(isCtrlPressed && event.keyCode == 89){
@@ -94,7 +97,7 @@ document.body.onkeydown = function(event){
             return;
         // draw the object and add it to drawnObjects
         
-        ResurrectRemoveObject(lastUndidObject);
+        resurrectRemoveObject(lastUndidObject);
     }
 }
 
