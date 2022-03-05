@@ -71,6 +71,10 @@ document.getElementById('nuke-everything').onclick = function(){
     removeEveryObject();
 }
 
+document.getElementById('scale').onclick = function(){
+    scale();
+}
+
 document.body.onkeydown = function(event){
     isShiftPressed = event.keyCode == shiftKeyCode;
 

@@ -1,5 +1,7 @@
 var colorButton = document.getElementById('color-button');
 var canvas = document.getElementById('main-board');
+var xInput = document.getElementById('x-value');
+var yInput = document.getElementById('y-value');
 var context = canvas.getContext('2d');
 var isUsingFreeDraw = true;
 var isUsingLine = false;

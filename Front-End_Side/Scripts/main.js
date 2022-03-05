@@ -220,6 +220,23 @@ function removeEveryObject(){
     });
 }
 
+function scale(){
+    const lastDrawnObject = drawnObjects;
+
+    console.log(drawnObjects.length);
+    removeEveryObject();
+    drawnObjects = [];
+
+    context.scale(xInput.value, yInput.value);
+
+    lastDrawnObject.forEach(object => {
+        resurrectRemoveObject(object);
+    })
+
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    console.log(drawnObjects.length);
+}
+
 function drawAllDrawnObjects(){
     drawnObjects.forEach(function(object){
         if(!object)
